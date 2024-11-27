@@ -345,6 +345,8 @@ async function showModal(auction, index) {
     subscribeBtn.style.display = "none";
     enter_btn.style.display = "none";
 
+    
+
     try {
         // Actualizar contenido del modal
         modalImageContainer.style.backgroundImage = `url(${auction.image})`;
