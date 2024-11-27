@@ -336,10 +336,8 @@ function updateTimer() {
 async function handleBid() {
     const bidValue = bidInput.value.replace(/\./g, '');
     const auctionId = sessionStorage.getItem('idRoom');
-
     const monto = document.querySelector(".total-amount span").textContent;
     const dinero = monto.replace(/[\s$]/g, '').replace(/\./g, '');
-
     if (bidValue === "" || isNaN(bidValue) || Number(bidValue) <= 0) {
         Swal.fire({
             icon: "error",
@@ -588,13 +586,15 @@ async function connectWebSocket() {
 
                 const parsedMessage = message.data;
                 console.log(parsedMessage);
+                let firstRank = null;
+                let firstUsername = null;
                 switch (parsedMessage.eventType) {
                     case "BID_PLACED":
                         document.querySelector(".current-bid span").textContent = `$ ${formatMoney(parsedMessage.eventData)}`;
                         break;
                     case "RANKING_UPDATED":
-                        const firstRank = parsedMessage.eventData[0];
-                        const firstUsername = Object.keys(firstRank)[0];
+                        firstRank = parsedMessage.eventData[0];
+                        firstUsername = Object.keys(firstRank)[0];
                         topBid = firstRank[firstUsername];
 
                         if (firstUsername !== username && !Creator) {

@@ -75,7 +75,6 @@ async function loadAuctions() {
             auctionsContainer.appendChild(emptyMessage);
         }
         // Procesa cada subasta y muestra de inmediato
-        userId = currentUserId;
         for (let auction of data) {
             const auctionData = await processAuctionData(auction, currentUserId);
             auctionsData.push(auctionData); // Añade la subasta al array de datos
@@ -489,32 +488,26 @@ previousPageButton.addEventListener("click", () => {
 });
 enter_btn.addEventListener("click", () => {
     const auction = auctionsData[currentAuctionIndex];
-    if (auction.status === "ACTIVE") {
+    if (auction.status === "ACTIVE" || auction.isCreator) {
         sessionStorage.setItem('idRoom', auction.id);
         window.location.href = "/html/sala.html"; // Redirigir a la sala
     } else {
-        if (auction.isCreator) {
-            sessionStorage.setItem('idRoom', auction.id);
-            window.location.href = "/html/sala.html"; // Redirigir a la sala
-        } else {
-            Swal.fire({
-                title: "Auction it's not available yet.",
-                width: 600,
-                padding: "3em",
-                color: "#fff",
-                heightAuto: false,
-                background: "#252525",
-                confirmButtonColor: "#ccb043",
-                backdrop: `
-                  url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDh5eGNnd3hubjkza2t0aDcxbjIzajRkeXc4c2l5MzkyZ2VveWQwayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/pauLTToDjXbfn2aaGv/giphy.gif")
-                  right top
-                  no-repeat
-                `
-            }).then(() => {
-                document.getElementById("auctionModal").style.display = "none";
-            });
-        }
-
+        Swal.fire({
+            title: "Auction it's not available yet.",
+            width: 600,
+            padding: "3em",
+            color: "#fff",
+            heightAuto: false,
+            background: "#252525",
+            confirmButtonColor: "#ccb043",
+            backdrop: `
+              url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDh5eGNnd3hubjkza2t0aDcxbjIzajRkeXc4c2l5MzkyZ2VveWQwayZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9cw/pauLTToDjXbfn2aaGv/giphy.gif")
+              right top
+              no-repeat
+            `
+        }).then(() => {
+            document.getElementById("auctionModal").style.display = "none";
+        });
     }
 })
 
