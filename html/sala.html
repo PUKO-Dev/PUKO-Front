@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUKO</title>
+    <link rel="stylesheet" href="/css/sala.css">
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+</head>
+
+<body>
+    <div class="menu">
+        <ion-icon name="menu-outline"></ion-icon>
+        <ion-icon name="close-outline"></ion-icon>
+    </div>
+    <div class="barra-lateral">
+        <div class="superior">
+
+            <div class="nombre-pagina">
+                <div id=puko>
+                    <img src="/img/logo.png" alt="">
+                </div>
+                <span>PUKO</span>
+            </div>
+
+            <div class="usuario">
+                <img src="/img/profile.jfif" alt="">
+                <div class="info-usuario">
+                    <div class="nombre-email">
+                        <span class="nombre">Bill Cypher</span>
+                        <button class="editUser"><span>Edit</span></button>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <nav class="navegacion">
+                    <ul>
+                        <li>
+                            <a href="/html/home.html">
+                                <img src="/img/dashboard.png" alt="">
+                                <span>DashBoard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+
+                                <img src="/img/profile.png" alt="">
+
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+
+                                <img src="/img/configuration.png" alt="">
+
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+        <div>
+
+            <div class="modo-oscuro">
+                <div class="switch">
+                    <div class="base">
+                        <img src="/img/sun.png" alt="">
+                        <div class="circulo"></div>
+                        <img src="/img/moon.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <main id="main_room" class="dashboard-container" style="display: none;">
+        <div class="container">
+            <!-- Div superior: Botón de Exit y Monto Total -->
+            <div class="header">
+                <button class="exit-button">Exit</button>
+<!--                <button class="test-btn">TEST</button>-->
+                <div class="total-amount">
+                    <img alt="dinero" src="/img/money.png">
+                    <span>2'000.000</span>
+                </div>
+            </div>
+
+            <!-- Div central: Tiempo, monto de la puja, imagen, input de puja, botón de puja e ícono de chat -->
+            <div class="principal">
+                <div class="auction-content">
+                    <div class="izquierdo_div">
+                        <div class="superior_div">
+                            <div class="time">
+                                <div class="timer-container">
+                                    <svg class="timer-circle" width="120" height="120" viewBox="0 0 120 120">
+                                        <circle class="bg-circle" cx="60" cy="60" r="54"></circle>
+                                        <circle class="progress-circle" cx="60" cy="60" r="54"></circle>
+                                    </svg>
+                                    <div class="timer-text">
+                                        <span id="time-remaining"></span>
+                                        <div id="tiempoMin">hours</div>
+                                    </div>
+                                </div>
+                                <span id="timeRemainingLabel" style="font-size: 20px;">Time Remaining</span>
+                            </div>
+                            <div class="medio">
+                                <div class="current-bid">
+                                    <span></span>
+                                </div>
+                                <div class="imagen-product">
+                                    <div class="image-container-product">
+
+                                    </div>
+                                    <h3 class="nombre-producto">h</h3>
+                                </div>
+
+                            </div>
+                            <div class="relleno"></div>
+                        </div>
+                        <div class="bajo">
+                            <div class="linea" id="lineaDiv"></div>
+                            <div class="puja" id="pujaContainer">
+                                <input type="number" placeholder="$" class="bid-input">
+                                <button class="bid-button">Pujar</button>
+                            </div>
+                            <button id="iniciarSalaBtn" style="display: none;">Start Auction</button>
+                            <button id="finalizarSalaBtn" style="display: none;">End Auction</button>
+                            <div class="chat">
+                                <ion-icon name="chatbubble-ellipses"></ion-icon>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Div lateral derecho: Ranking -->
+                    <div class="ranking">
+                        <div class="ranking-container">
+                            <h2>Ranking</h2>
+                            <div class="linea"></div>
+                            <ul class="ranking-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="chatPopup" class="chat-popup">
+                <div class="chat-header">
+                    <span>CHAT</span>
+                </div>
+                <div class="chat-body">
+                    <!-- Aquí irán los mensajes del chat -->
+                </div>
+                <div class="chat-footer">
+                    <input type="text" placeholder="Write a message..." class="chat-input">
+                    <button class="send-message">Send</button>
+                </div>
+            </div>
+            <div id="popup" class="popup">
+                <p>bid outbid by someone else 😦</p>
+            </div>
+    </main>
+    
+    <div class="loading"></div>
+    <script type="importmap">
+        {
+          "imports": {
+            "@azure/web-pubsub-client": "/node_modules/@azure/web-pubsub-client/dist/index.js"
+          }
+        }
+        </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script type="module" src="/js/sala.js"></script>
+    
+</body>
+
+</html>

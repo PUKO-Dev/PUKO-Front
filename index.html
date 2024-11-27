@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantalla de Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+</head>
+<body>
+    <div class="container">
+        <div class="login-section">
+            <div class="circulo">
+                <button class="empty"></button>
+            </div>
+            <div class="login-form">
+                <h2>LOGIN</h2>
+                <div class="input-field">
+                    <img src="/img/profile.png" alt="" class="username">
+                    <input type="text" placeholder="Username">
+                </div>
+                <div class="input-field">
+                    <img src="/img/lock.png" alt="" class="password">
+                    <input type="password" placeholder="Password">
+                </div>
+                <button class="login-btn">LOGIN</button>
+                <p class="signup-link">
+                    <span class="highlight">Don't have an Account?</span> <a href="#">SignUp!</a>
+                </p>
+            </div>
+        </div>
+        <div class="signup-section">
+            <div class="header">
+                <img src="/img/puko.png" alt="" class="puko">
+                <h2>PUKO</h2>
+            </div>
+            <div class="welcome-message">
+                <h2>Hello, Friend!</h2>
+                <p>Enter your personal details<br>and start your journey with us</p>
+                <button class="signup-btn">SIGN UP</button>
+            </div>
+        </div>
+        <div class="loading"></div>
+    </div>
+    <script src="/js/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

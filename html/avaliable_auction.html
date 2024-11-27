@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUKO</title>
+    <link rel="stylesheet" href="/css/avaliable_auction.css">
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+</head>
+
+<body>
+    <div class="menu">
+        <ion-icon name="menu-outline"></ion-icon>
+        <ion-icon name="close-outline"></ion-icon>
+    </div>
+    <div class="barra-lateral">
+        <div class="superior">
+
+            <div class="nombre-pagina">
+                <div id=puko>
+                    <img src="/img/logo.png" alt="">
+                </div>
+                <span>PUKO</span>
+            </div>
+
+            <div class="usuario">
+                <img src="/img/profile.jfif" alt="">
+                <div class="info-usuario">
+                    <div class="nombre-email">
+                        <span class="nombre">Bill Cypher</span>
+                        <button class="editUser"><span>Edit</span></button>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <nav class="navegacion">
+                    <ul>
+                        <li>
+                            <a  href="/html/home.html">
+                                <img src="/img/dashboard.png" alt="">
+                                <span>DashBoard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+
+                                <img src="/img/profile.png" alt="">
+
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+
+                                <img src="/img/configuration.png" alt="">
+
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+        <div>
+
+            <div class="modo-oscuro">
+                <div class="switch">
+                    <div class="base">
+                        <img src="/img/sun.png" alt="">
+                        <div class="circulo"></div>
+                        <img src="/img/moon.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <main class="dashboard-container">
+        <h1>AVALIABLE AUCTIONS</h1>
+        <div class="auction">
+            <div id="auctions-container" class="auctions-grid"></div>
+            <div class="pagina-buttons">
+                <button id="previous-page" class="previous-page-btn" disabled>Prev Page</button>
+                <button id="next-page" class="next-page-btn">Next Page</button>
+            </div>
+        </div>
+        <div id="auctionModal" class="modal">
+            <div class="modal-content">
+                <ion-icon id="cerrarPopUp" name="close-outline"></ion-icon>
+                
+                <div class="modal-body">
+                    <div class="modal-navigation">
+                        
+                        <ion-icon id="prevAuction" class="nav-button" name="chevron-back-outline"></ion-icon>
+                        <div class="modal-image-container"></div>
+                        <ion-icon id="nextAuction" class="nav-button" name="chevron-forward-outline"></ion-icon>
+                    </div>
+                    <h2 id="modal-title">Hola</h2>
+                    <p id="modal-price"></p>
+                    <p><span id="modal-status"></span></p>
+                    <p id="modal-time"></p>
+                    <button id="loadingText" style="display: none; color: #fff; font-weight: bold; font-size: 20px;">Loading...</button>
+                    <button class="subscribe-btn" style="display: none;">Subscribe</button>
+                    <button class="enter-btn" style="display: none;">Enter</button>
+                </div>
+            </div>
+        </div>
+        <div class="logOut">
+            <img src="/img/logOut.png" alt="Logout" class="logOut-icon">
+        </div>
+        <div class="loading"></div>
+        <div id="popup" class="popup">
+            <p>You are already subscribed</p>
+        </div>
+    </main>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/avaliable_auction.js"></script>
+</body>
+
+</html>

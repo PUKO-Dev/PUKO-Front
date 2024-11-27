@@ -1,0 +1,939 @@
+@font-face {
+    font-family: 'CocomatPro';
+    src: url('/cocomat-pro/CocomatPro-Black.eot');
+    src: url('/cocomat-pro/CocomatPro-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CocomatPro';
+    src: url('/cocomat-pro/CocomatPro-Bold.eot');
+    src: url('/cocomat-pro/CocomatPro-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+:root{
+    /*-----------Variables Colores*/
+    --color-barra-lateral: rgb(33, 33, 33);
+    --color-menu-principal: rgb(28, 28, 28);
+
+    --color-texto: rgb(255,255,255);
+    --color-texto-menu: #e7e7e7;
+
+    --color-menu-hover: rgb(0,0,0);
+    --color-menu-hover-texto: rgb(238,238,238);
+
+    --color-boton: rgb(71, 73, 77);
+    --color-boton-texto: rgb(255,255,255);
+    --color-boton-texto2: #212121;
+    
+    --color-boton-avaliable: rgb(245, 210, 75);
+    --color-boton-createAuction: #dcdcdc;
+    --color-boton-registeredAuction: rgb(47, 48, 50);
+
+    --color-linea:rgb(220, 220, 220);
+
+    --color-switch-base: rgb(44, 46, 52);
+    --color-switch-circulo: rgb(204, 176, 67);
+    --color-switch-icon: rgb(185, 167, 59);
+
+    --color-scroll: rgb(68, 69, 74);
+    --color-scroll-hover: rgb(85,85,85);
+    /*-------------------Variables Imagenes*/
+    --image-available-auction: url('/img/availableAuction.png');
+    --image-registered-auctions-fondo: url('/img/registeredAuctionBG.png');
+    --image-registered-auctions:  url('/img/registeredAuction.png');
+    --image-create-auction: url('/img/createAuctionDM.png');
+    --image-participation-history: url('/img/participationHistory.png');
+    --image-created-auction: url('/img/createdAuction.jpeg');
+    --image-my-articles: url('/img/myArticles.png');
+   
+}
+.dark-mode{
+     /*-----------Variables Colores*/
+    --color-barra-lateral: #d2d2cf;
+    --color-menu-principal: #e0dfd9;
+
+    --color-texto: #161616;
+    --color-texto-menu: #0f0f0f;
+
+    --color-menu-hover: #bbbbb9;
+    --color-menu-hover-texto: #161616;
+
+    --color-boton: #484846;
+    --color-boton-texto: rgb(255,255,255);
+
+    --color-boton-avaliable: rgb(245, 210, 75);
+    --color-boton-createAuction: #ccb043;
+    --color-boton-registeredAuction: #535352;
+
+
+    --color-linea:rgb(180,180,180);
+
+    --color-switch-base: #3d3d3d;
+    --color-switch-circulo: #272727;
+    --color-switch-icon: rgb(44, 46, 52);
+
+    --color-scroll: rgb(192,192,192);
+    --color-scroll-hover: rgb(134,134,134);
+
+    /*-------------------Variables Imagenes*/
+    --image-available-auction: url('/img/availableAuction.png');
+    --image-registered-auctions-fondo: url('/img/registeredAuctionBG.png');
+    --image-registered-auctions:  url('/img/registeredAuction.png');
+    --image-create-auction: url('/img/createAuctionDM.png');
+    --image-participation-history: url('/img/participationHistory.png');
+    --image-created-auction: url('/img/createdAuction.jpeg');
+    --image-my-articles: url('/img/myArticles.png');
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'CocomatPro', Arial, sans-serif;
+}
+body{
+  
+    height: 100vh;
+    width: 100%;
+    background-color: var(--color-menu-principal);
+}
+/*----------------> Menu*/
+.menu {
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    font-size: 30px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    right: 15px;
+    top: 15px;
+    background-color: var(--color-boton);
+    color: var(--color-boton-texto);
+    z-index: 100;
+}
+/*---------------->Barra Lateral*/
+.barra-lateral{
+ 
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 250px;
+    height: 100%;
+    overflow: hidden;
+    padding: 20px 15px;
+    background-color:  var(--color-barra-lateral);
+    transition: width 0.5s ease, background-color 0.5s ease, left 0.5s ease;
+    z-index: 50;
+}
+.mini-barra-lateral{
+    width: 80px;
+}
+.barra-lateral span{
+    
+    width: 100px;
+    white-space: nowrap;
+    font-size: 18px;
+    text-align: left;
+    opacity: 1;
+    transition: opacity 0.5s ease, width 0.5s ease;
+}
+.barra-lateral  span.oculto {
+    opacity: 0;
+    width: 0;
+}
+/*--------------->Elementos div superior*/
+.barra-lateral .superior {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 55px;    
+}
+
+/*--------------> Nombre de la pagina*/
+.barra-lateral .nombre-pagina{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-texto);
+}
+.barra-lateral #puko{
+    cursor: pointer;
+    margin-top: 7px;
+    
+}
+.barra-lateral .nombre-pagina span {
+    
+    margin-left: 5px;
+    font-size: 25px;
+}
+.barra-lateral .nombre-pagina img{
+    width: 40px;
+    height: 40px;
+}
+
+/* Contenedor para el icono de logout */
+.logOut {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* Estilos para el icono de logout */
+.logOut-icon {
+    width: 40px; /* Ajusta el tamaño del icono aquí */
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.logOut-icon:hover {
+    transform: scale(1.1); /* Agranda el icono ligeramente al pasar el cursor */
+}
+
+/*-----------------> Usuario*/
+.barra-lateral .usuario{
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.barra-lateral .usuario img {
+
+    width: 100%; 
+    max-width: 150px; 
+    min-width: 50px; 
+    height: auto; 
+    border-radius: 50%;
+}
+.barra-lateral .usuario .info-usuario{
+
+    width: 100%;
+    display: flex;
+    border-top: 10px;
+    align-items: center;
+    color: var(--color-texto);
+    overflow: hidden;
+}
+.barra-lateral .usuario .nombre-email{
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.barra-lateral .usuario .nombre{
+    font-size: 25px;
+    font-weight: 600;
+    text-align: center;
+}
+.barra-lateral .usuario .email {
+    font-size: 10px;
+}
+
+.barra-lateral .editUser{
+    background-color: var(--color-switch-base);
+    border: 1px solid #ffff;
+    color: var(--color-texto);
+    width: 35%;
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: 3px;
+    cursor: pointer;
+}
+.barra-lateral .editUser.oculto{
+    opacity: 0;
+    width: 0;
+}
+
+/*---------------> Boton*/
+.barra-lateral .boton{
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--color-boton);
+    color: var(--color-boton-texto);
+}
+.barra-lateral .boton ion-icon{
+    min-width: 50px;
+    font-size: 25px;
+}
+/*----------------> Menu navegacion*/
+.barra-lateral .navegacion{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+}
+.barra-lateral .navegacion::-webkit-scrollbar{
+    width: 5px;
+}
+.barra-lateral .navegacion::-webkit-scrollbar-thumb{
+    background-color: var(--color-scroll);
+    border-radius: 5px;
+}
+.barra-lateral .navegacion::-webkit-scrollbar-thumb:hover{
+    background-color: var(--color-scroll-hover);
+}
+
+.barra-lateral .navegacion li{
+    list-style: none;
+    display: flex;
+    margin-bottom: 30px;
+}
+.barra-lateral .navegacion a{
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    
+    color: var(--color-texto-menu);
+}
+.barra-lateral .navegacion a img{
+    min-width: 40px;
+    height: 90%;
+    margin-right: 5px;
+    padding: 5px;
+}
+.barra-lateral .navegacion a:hover{
+    background-color: var(--color-menu-hover);
+    color: var(--color-menu-hover-texto);
+}
+.barra-lateral .navegacion ion-icon{
+    min-width: 50px;
+    font-size: 20px;
+}
+
+/*--------------> Modo Oscuro*/
+.barra-lateral .modo-oscuro{
+
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 80px;
+    display: flex;
+    justify-content: center;
+}
+.barra-lateral .modo-oscuro .info{
+    width: 150px;
+    height: 45px;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    color: var(--color-texto-menu);
+}
+.barra-lateral .modo-oscuro ion-icon{
+    width: 50px;
+    font-size: 20px;
+}
+/*--->Switch*/
+.barra-lateral .modo-oscuro .switch{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    height: 45px;
+    cursor: pointer;
+}
+.barra-lateral .modo-oscuro .base {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100px;
+    height: 40px;
+    background-color: var(--color-switch-base);
+    border: 0.5px solid #212121;
+    border-radius: 50px;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+
+.barra-lateral .modo-oscuro .circulo {
+    position: absolute;
+    width: 35px;
+    height: 28px;
+    background-color: var(--color-switch-circulo);
+    border-radius: 45%;
+    left: 53px;
+    transition: left 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.barra-lateral .modo-oscuro .circulo.prendido {
+    left: 9px;
+}
+
+.barra-lateral .modo-oscuro img {
+    color: var(--color-switch-icon);
+    width: 20px;
+    height: 20px;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+.barra-lateral .modo-oscuro .icono.sun-icon {
+    opacity: 1;
+}
+
+.barra-lateral .modo-oscuro .circulo.prendido ~ .sun-icon {
+    opacity: 0.5;
+}
+
+.barra-lateral .modo-oscuro .icono.moon-icon {
+    opacity: 0.5;
+}
+
+.barra-lateral .modo-oscuro .circulo.prendido ~ .moon-icon {
+    opacity: 1;
+}
+
+.mini-barra-lateral .modo-oscuro .base {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 40px;
+    height: 20px;
+    background-color: var(--color-switch-base);
+    border-radius: 50px;
+    padding: 0 3px;
+    box-sizing: border-box;
+}
+
+.mini-barra-lateral .modo-oscuro .circulo {
+    position: absolute;
+    top: 3px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-switch-circulo);
+    border-radius: 50%;
+    left: 20px;
+    transition: left 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.mini-barra-lateral .modo-oscuro .circulo.prendido {
+    left: 5px;
+}
+
+.mini-barra-lateral .modo-oscuro img {
+    color: var(--color-switch-icon);
+    width: 10px;
+    height: 10px;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+.mini-barra-lateral .modo-oscuro .icono.sun-icon {
+    opacity: 1;
+}
+
+.mini-barra-lateral .modo-oscuro .circulo.prendido ~ .sun-icon {
+    opacity: 0.5;
+}
+
+.mini-barra-lateral .modo-oscuro .icono.moon-icon {
+    opacity: 0.5;
+}
+
+.mini-barra-lateral .modo-oscuro .circulo.prendido ~ .moon-icon {
+    opacity: 1;
+}
+
+/* Íconos en modo claro */
+.dark-mode .barra-lateral .navegacion #home img {
+    content: url('/img/dashboard-dark.png');
+}
+
+.dark-mode .barra-lateral .navegacion li:nth-child(2) img {
+    content: url('/img/profile-dark.png');
+}
+
+.dark-mode .barra-lateral .navegacion li:nth-child(3) img {
+    content: url('/img/configuration-dark.png');
+}
+
+/* Estilos específicos para el botón "Edit" en modo claro */
+.dark-mode .barra-lateral .editUser {
+    background-color: #393b3e; /* Usa el color que definiste */
+    border: 1px solid var(--color-linea); /* Borde acorde a tus variables */
+    color: var(--color-boton-texto); /* Texto del botón */
+    padding: 3px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode .barra-lateral .editUser:hover {
+    background-color: #424242; /* Efecto hover en modo claro */
+    color: #fff;
+    transform: scale(1.005);
+}
+
+/* Logo e icono de logout en modo oscuro */
+.dark-mode .barra-lateral .nombre-pagina #puko img {
+    content: url('/img/logo-dark.png');
+}
+
+.dark-mode .logOut .logOut-icon {
+    content: url('/img/logOut-dark.png');
+}
+
+.barra-lateral .editUser:hover {
+    background-color: #31333a; /* Efecto hover en modo claro */
+    color: #fff;
+    transform: scale(1.006);
+}
+
+
+
+/*--------------> Main*/
+#home{
+    border-bottom: 4px solid #47494d;
+}
+main{
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.5s ease;
+}
+main.min-main{
+    margin-left: 80px;
+}
+/*-------------->Animaciones*/
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Los elementos inician más abajo */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Los elementos vuelven a su posición original */
+    }
+}
+@keyframes rotate {
+    0% {
+      transform: rotateZ(0deg);
+    }
+    100% {
+      transform: rotateZ(360deg);
+    }
+  }
+
+  @keyframes circle-out-hesitate {
+    0% {
+        clip-path: circle(125%);
+        background-color: #212121; /* Color de fondo inicial */
+    }
+    40% {
+        clip-path: circle(40%);
+        background-color: #252525; /* Color de fondo ligeramente más claro */
+    }
+    100% {
+        clip-path: circle(0%);
+        background-color: #292929; /* Color de fondo final */
+    }
+}
+
+/* Aplica la animación al body cuando tenga el atributo transition-style */
+body[transition-style="out:circle:hesitate"] {
+    animation: 2.5s cubic-bezier(.25, 1, .30, 1) circle-out-hesitate both;
+}
+/*--------------> Dashboard*/
+.dashboard-container {
+
+    height: 100%;
+    padding: 20px;
+    background-color: var(--color-menu-principal); /* Fondo oscuro */
+    color: var(--color-texto); /* Texto blanco */
+}
+
+h1 {
+    font-size: 2rem;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+    color: var(--color-texto);
+    font-weight: bold;
+}
+.dashboard {
+    height: 92%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    padding: 20px;
+    background-color: var(--color-menu-principal); /* Fondo oscuro */
+    justify-items: center; 
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+.dashboard-item {
+    display: flex;
+    width: 60%;
+    height: 75%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-boton); /* Color de fondo de los ítems */
+    border-radius: 12px;
+    text-align: center;
+    color: var(--color-boton-texto); 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-sizing: border-box; /* Asegura que padding y border estén incluidos en el tamaño total */
+    padding: 10px; /* Agrega un poco de espacio interno para evitar que los elementos toquen los bordes */
+    animation: fadeInUp 1.3s ease both;
+    cursor: pointer;  
+}
+
+.dashboard-item h2 {
+
+    margin: 0;
+    margin-top: 10px;
+    font-size: 1.4rem;
+    color: var(--color-texto);
+    margin-bottom: auto; /* Mantiene el título en la parte superior */
+    width: 100%; /* Se adapta al ancho del contenedor */
+    text-align: center; /* Asegura que el texto esté centrado */
+    box-sizing: border-box; /* Incluye border en el tamaño total */
+    padding: 5px;
+}
+
+.dashboard-item .content {
+  
+    width: 100%; /* El contenido se adapta al ancho del contenedor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    box-sizing: border-box; /* Asegura que border y padding estén incluidos en el tamaño total */
+}
+
+.dashboard-item img {
+    animation: fadeInUp 0.8s ease both; /* Aparecen con la misma animación */
+    transition: transform 0.3s ease;
+}
+.dashboard-item:hover {
+    background-color: #444; /* Cambio de color al pasar el mouse */
+    transform: scale(1.05);
+}
+
+/*-------> Boton Avaliable Auctions*/
+.available-auctions {
+    background-color: var(--color-boton-avaliable); /* Fondo amarillo */
+    
+}
+.available-auctions h2{
+    color: var(--color-boton-texto2); /* Texto oscuro */
+}
+.available-auctions .content{
+    background-image: var(--image-available-auction);
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+
+/*---------------> Boton Registered Auctions*/
+.registered-auctions{
+    background-color: var(--color-boton-registeredAuction);
+    background-image: var(--image-registered-auctions-fondo);
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+   
+    color: var(--color-boton-texto);
+}
+
+.registered-auctions .content {
+    background-image: var(--image-registered-auctions);
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+.registered-auctions h2 {
+    color: #fff;
+}
+
+
+/*-------------> Boton de Create Auction*/
+.create-auction .content{
+    background-image: var(--image-create-auction);
+    background-size: contain;
+    background-position: center; 
+    background-repeat: no-repeat;
+    color: var(--color-boton-texto2); 
+}
+.create-auction h2 {
+    color: #323232;
+}
+.create-auction {
+    background-color: var(--color-boton-createAuction);
+}
+
+
+/*--------------->Boton Participation History*/
+.participation-history .content{
+    background-image: var(--image-participation-history);
+    background-size: contain;
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+
+.participation-history h2 {
+    color: #fff;
+}
+/*--------------> Boton Created Auctions*/
+.created-auctions{
+    background-image: var(--image-created-auction);
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat; 
+}
+
+.created-auctions h2{
+    color: #fff;
+}
+/*--------------> Boton My articles*/
+
+.my-articles {
+    background-color: #393b3e ;
+}
+.my-articles .content{
+    background-image: var(--image-my-articles);
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+
+.my-articles h2 {
+    color: #fff;
+}
+
+/*-------> Hover para Available Auctions*/
+.available-auctions:hover {
+    background-color: #d3b644; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+/*-------> Hover para Registered Auctions*/
+.registered-auctions:hover {
+    background-color: #616262; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/*-------> Hover para Create Auction*/
+.create-auction:hover {
+    background-color: #b8b8b8; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
+
+/*-------> Hover para Participation History*/
+.participation-history:hover {
+    background-color: #3d4042; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/*-------> Hover para Created Auctions*/
+.created-auctions:hover {
+    background-color: #3a3a3a; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/*-------> Hover para My Articles*/
+.my-articles:hover {
+    background-color: #333538; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/*--------------------------------------------------------------------------*/
+
+/*-------> Hover para Available Auctions en Dark Mode*/
+.dark-mode .available-auctions:hover {
+    background-color: #e6c649; /* Fondo amarillo dorado más claro */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más intensa */
+}
+
+/*-------> Hover para Registered Auctions en Dark Mode*/
+.dark-mode .registered-auctions:hover {
+    background-color: #6b6b6b; /* Fondo gris claro */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra más intensa */
+}
+
+/*-------> Hover para Create Auction en Dark Mode*/
+.dark-mode .create-auction:hover {
+    background-color: #bea540; 
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+}
+
+/*-------> Hover para Participation History en Dark Mode*/
+.dark-mode .participation-history:hover {
+    background-color: #41413f; /* Fondo gris oscuro */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra más intensa */
+}
+
+/*-------> Hover para Created Auctions en Dark Mode*/
+.dark-mode .created-auctions:hover {
+    background-color: #313131; /* Fondo gris oscuro */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Sombra más intensa */
+}
+
+/*-------> Hover para My Articles en Dark Mode*/
+.dark-mode .my-articles:hover {
+    background-color: #343638; /* Fondo gris medio */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra más intensa */
+}
+
+.total-amount {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #3d3d3d;
+    border-radius: 30px;
+
+    width: 220px;
+    height: 40px;
+    text-align: left;
+}
+
+.total-amount img {
+
+    width: 46px;
+    height: 30px;
+}
+
+.total-amount span {
+    padding-bottom: 5px;
+    font-size: 18px;
+    width: 70%;
+}
+/*------------>Responsive*/
+@media (max-height: 691px ){
+    .barra-lateral{
+        position: fixed;
+        left: -250px;
+    }
+    .max-barra-lateral{
+        left: 0;
+    }
+    .menu{
+        display: flex;
+    }
+    .menu ion-icon:nth-child(2){
+        display: none;
+    }
+    main{
+        margin-left: 0;
+    }
+    main.min-main{
+        margin-left: 0;
+    }
+    
+}
+
+@media (max-width: 600px){
+    .barra-lateral{
+        position: fixed;
+        left: -250px;
+    }
+    .max-barra-lateral{
+        left: 0;
+    }
+    .menu{
+        display: flex;
+    }
+    .menu ion-icon:nth-child(2){
+        display: none;
+    }
+    main{
+        margin-left: 0;
+    }
+    main.min-main{
+        margin-left: 0;
+    }
+}
+@media (max-width: 768px) {
+    .barra-lateral .superior {
+        gap: 40px;
+    }
+    .dashboard {
+        gap: 0px;
+        padding: 0px;
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas cuando el ancho sea menor a 768px */
+    }
+    .linea {
+        margin: 5px 0 !important; /* Reducir separación en pantallas medianas */
+    }
+    .dashboard-item h2{
+        margin-top: 0;
+        font-size: 1.3rem;
+    }
+  
+
+}
+
+/* Ajuste para pantallas aún más pequeñas */
+@media (max-width: 480px) {
+    .barra-lateral .superior {
+        gap: 40px;
+    }
+    .dashboard {
+        gap: 0px !important;
+        padding: 0px !important;
+        grid-template-columns: 1fr; /* 1 columna cuando el ancho sea menor a 480px */
+    }
+    .dashboard-item img{
+        width: 80%;
+        display: none;
+    }
+    .dashboard-item .content{
+        display: none;
+    }
+    .salto{
+        display: none;
+    }  
+}

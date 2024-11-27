@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUKO</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+</head>
+
+<body>
+    <div class="menu">
+        <ion-icon name="menu-outline"></ion-icon>
+        <ion-icon name="close-outline"></ion-icon>
+    </div>
+    <div class="barra-lateral">
+        <div class="superior">
+
+            <div class="nombre-pagina">
+                <div id=puko>
+                    <img src="/img/logo.png" alt="">
+                </div>
+                <span>PUKO</span>
+            </div>
+
+            <div class="usuario">
+                <img src="/img/profile.jfif" alt="">
+                <div class="info-usuario">
+                    <div class="nombre-email">
+                        <span class="nombre"></span>
+                        <button class="editUser"><span>Edit</span></button>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <nav class="navegacion">
+                    <ul>
+                        <li>
+                            <a id="home" href="/html/home.html">
+                                <img src="/img/dashboard.png" alt="">
+                                <span>DashBoard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+
+                                <img src="/img/profile.png" alt="">
+
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+
+                                <img src="/img/configuration.png" alt="">
+
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+        <div>
+
+            <div class="modo-oscuro">
+                <div class="switch">
+                    <div class="base">
+                        <img src="/img/sun.png" alt="">
+                        <div class="circulo"></div>
+                        <img src="/img/moon.png" alt="">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <main class="dashboard-container">
+        <h1>DASHBOARD</h1>
+        <div class="dashboard">
+            <div class="dashboard-item available-auctions">
+                <h2>Available <br class="salto"> Auctions</h2>
+                <div class="content">
+                    <div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="dashboard-item registered-auctions">
+                <h2>Registered <br class="salto"> Auctions</h2>
+                <div class="content">
+
+                </div>
+
+            </div>
+            <div class="dashboard-item create-auction">
+                <h2>Create <br class="salto"> Auction</h2>
+                <div class="content">
+
+                </div>
+
+            </div>
+            <div class="dashboard-item participation-history">
+                <h2>Participation <br class="salto"> History</h2>
+                <div class="content">
+
+                </div>
+
+            </div>
+            <div class="dashboard-item created-auctions">
+                <h2>Created Auctions</h2>
+                <div class="content">
+
+                </div>
+
+            </div>
+            <div class="dashboard-item my-articles">
+                <h2>My Articles</h2>
+                <div class="content">
+
+                </div>
+
+            </div>
+
+            <div class="logOut">
+                <img src="/img/logOut.png" alt="Logout" class="logOut-icon">
+            </div>
+            <div class="total-amount">
+                <img alt="dinero" src="/img/money.png">
+                <span></span>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/js/home.js"></script>
+</body>
+
+</html>
