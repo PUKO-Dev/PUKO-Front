@@ -11,7 +11,7 @@ function validateLogin(event) {
 
     // Definimos la URL de la API
     //NOSONAR
-    const apiUrl = 'https://20.3.4.249/api/users/me'; //NOSONAR
+    const apiUrl = 'http://20.3.4.249/api/users/me'; //NOSONAR
 
     // Codificamos las credenciales en base64
     const credentials = btoa(`${usernameInput}:${passwordInput}`);
