@@ -24,7 +24,7 @@ let topBid;
 let TOTAL_TIME;
 let timeRemaining;
 //NOSONAR
-const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
+const apiUrl = 'https://20.3.4.249/api'; //NOSONAR
 // Función para obtener headers de autenticación
 function getAuthHeaders() {
     const credentials = sessionStorage.getItem('authCredentials');
@@ -543,7 +543,7 @@ fetchUserData().then(userData => {
 async function connectWebSocket() {
     try {
         //NOSONAR
-        const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
+        const response = await fetch(`https://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const data = await response.json();
 

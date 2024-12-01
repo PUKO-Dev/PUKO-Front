@@ -27,7 +27,7 @@ let currentImageIndex = 0;
 let currentRealAuctionIndex = 0;
 let topBid = 0;
 //NOSONAR
-const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
+const apiUrl = 'https://20.3.4.249/api'; //NOSONAR
 
 // Función para cargar las subastas disponibles
 function getAuthHeaders() {
@@ -611,7 +611,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const userId = getCurrentUserId();
         //NOSONAR
-        const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
+        const response = await fetch(`https://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const data = await response.json();
         socket = new WebSocket(data.url, 'json.webpubsub.azure.v1');
