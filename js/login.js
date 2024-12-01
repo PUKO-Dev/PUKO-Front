@@ -10,7 +10,8 @@ function validateLogin(event) {
     const passwordInput = document.querySelector('input[placeholder="Password"]').value;
 
     // Definimos la URL de la API
-    const apiUrl = 'https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/users/me';
+    //NOSONAR
+    const apiUrl = 'http://20.3.4.249/api/users/me'; //NOSONAR
 
     // Codificamos las credenciales en base64
     const credentials = btoa(`${usernameInput}:${passwordInput}`);

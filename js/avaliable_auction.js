@@ -26,6 +26,8 @@ let currentAuctionIndex = 0;
 let currentImageIndex = 0;
 let currentRealAuctionIndex = 0;
 let topBid = 0;
+//NOSONAR
+const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
 
 // Función para cargar las subastas disponibles
 function getAuthHeaders() {
@@ -37,7 +39,7 @@ function getAuthHeaders() {
 }
 async function getRemainingTime(auctionId) {
     try {
-        const response = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}/remaining-time`, {
+        const response = await fetch(`${apiUrl}/auctions/${auctionId}/remaining-time`, {
             headers: getAuthHeaders()
         });
         if (!response.ok) throw new Error('Error al cargar el tiempo restante de la subasta.');
@@ -60,7 +62,7 @@ async function loadAuctions() {
     try {
         const currentUserId = parseInt(getCurrentUserId(), 10);
 
-        const response = await fetch('https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/available', {
+        const response = await fetch(`${apiUrl}/auctions/available`, {
             headers: getAuthHeaders()
         });
 
@@ -75,7 +77,6 @@ async function loadAuctions() {
             auctionsContainer.appendChild(emptyMessage);
         }
         // Procesa cada subasta y muestra de inmediato
-        userId = currentUserId;
         for (let auction of data) {
             const auctionData = await processAuctionData(auction, currentUserId);
             auctionsData.push(auctionData); // Añade la subasta al array de datos
@@ -230,7 +231,7 @@ function convertDurationToSeconds(duration) {
 }
 // Función para cargar los detalles de un artículo
 async function loadArticleDetails(articleId) {
-    const response = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/articles/${articleId}/with-image`, {
+    const response = await fetch(`${apiUrl}/articles/${articleId}/with-image`, {
         headers: getAuthHeaders()
     });
     if (!response.ok) throw new Error('Error al cargar los detalles del artículo.');
@@ -489,32 +490,26 @@ previousPageButton.addEventListener("click", () => {
 });
 enter_btn.addEventListener("click", () => {
     const auction = auctionsData[currentAuctionIndex];
-    if (auction.status === "ACTIVE") {
+    if (auction.status === "ACTIVE" || auction.isCreator) {
         sessionStorage.setItem('idRoom', auction.id);
         window.location.href = "/html/sala.html"; // Redirigir a la sala
     } else {
-        if (auction.isCreator) {
-            sessionStorage.setItem('idRoom', auction.id);
-            window.location.href = "/html/sala.html"; // Redirigir a la sala
-        } else {
-            Swal.fire({
-                title: "Auction it's not available yet.",
-                width: 600,
-                padding: "3em",
-                color: "#fff",
-                heightAuto: false,
-                background: "#252525",
-                confirmButtonColor: "#ccb043",
-                backdrop: `
-                  url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDh5eGNnd3hubjkza2t0aDcxbjIzajRkeXc4c2l5MzkyZ2VveWQwayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/pauLTToDjXbfn2aaGv/giphy.gif")
-                  right top
-                  no-repeat
-                `
-            }).then(() => {
-                document.getElementById("auctionModal").style.display = "none";
-            });
-        }
-
+        Swal.fire({
+            title: "Auction it's not available yet.",
+            width: 600,
+            padding: "3em",
+            color: "#fff",
+            heightAuto: false,
+            background: "#252525",
+            confirmButtonColor: "#ccb043",
+            backdrop: `
+              url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDh5eGNnd3hubjkza2t0aDcxbjIzajRkeXc4c2l5MzkyZ2VveWQwayZlcD12MV9pbnRlcm5naWZfYnlfaWQmY3Q9cw/pauLTToDjXbfn2aaGv/giphy.gif")
+              right top
+              no-repeat
+            `
+        }).then(() => {
+            document.getElementById("auctionModal").style.display = "none";
+        });
     }
 })
 
@@ -575,7 +570,7 @@ subscribeBtn.addEventListener("click", async () => {
 });
 async function checkSubscription(auctionId) {
     try {
-        const response = await fetch('https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/registered', {
+        const response = await fetch(`${apiUrl}/auctions/registered`, {
             headers: getAuthHeaders()
         });
         if (!response.ok) throw new Error('Error al cargar las subastas registradas.');
@@ -592,7 +587,7 @@ async function checkSubscription(auctionId) {
 async function subscribeToAuction(auctionId) {
 
     try {
-        const response = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}/register`, {
+        const response = await fetch(`${apiUrl}/auctions/${auctionId}/register`, {
             method: 'POST',
             headers: getAuthHeaders()
         });
@@ -615,7 +610,8 @@ let socket;
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const userId = getCurrentUserId();
-        const response = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/negotiate?id=${userId}`);
+        //NOSONAR
+        const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const data = await response.json();
         socket = new WebSocket(data.url, 'json.webpubsub.azure.v1');
