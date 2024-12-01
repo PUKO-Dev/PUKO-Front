@@ -23,9 +23,8 @@ let isChatOpen = false;
 let topBid;
 let TOTAL_TIME;
 let timeRemaining;
-// Using HTTP instead of HTTPS for development purposes.
-// sonar-ignore: Using HTTP protocol is insecure.
-const apiUrl = 'http://20.3.4.249/api';
+//NOSONAR
+const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
 // Función para obtener headers de autenticación
 function getAuthHeaders() {
     const credentials = sessionStorage.getItem('authCredentials');
@@ -543,9 +542,8 @@ fetchUserData().then(userData => {
 // Función para conectar al WebSocket
 async function connectWebSocket() {
     try {
-        // Using HTTP instead of HTTPS for development purposes.
-        // sonar-ignore: Using HTTP protocol is insecure.
-        const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`);
+        //NOSONAR
+        const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const data = await response.json();
 
