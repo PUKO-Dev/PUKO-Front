@@ -35,7 +35,7 @@ function getAuthHeaders() {
 async function fetchUserMoney() {
     try {
         const montoElement = document.querySelector('.total-amount span');
-        const userResponse = await fetch('https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/users/me', {
+        const userResponse = await fetch('http://20.3.4.249/api/users/me', {
             headers: getAuthHeaders()
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');

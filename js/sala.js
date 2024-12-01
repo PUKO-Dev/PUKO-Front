@@ -23,7 +23,7 @@ let isChatOpen = false;
 let topBid;
 let TOTAL_TIME;
 let timeRemaining;
-
+const apiUrl = 'http://20.3.4.249/api';
 // Función para obtener headers de autenticación
 function getAuthHeaders() {
     const credentials = sessionStorage.getItem('authCredentials');
@@ -68,7 +68,7 @@ async function fetchAuctionData() {
     try {
         // Primera consulta: Obtener datos de la subasta
 
-        const auctionResponse = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}`, {
+        const auctionResponse = await fetch(`${apiUrl}/auctions/${auctionId}`, {
             headers: getAuthHeaders()
         });
         if (!auctionResponse.ok) throw new Error('Error al cargar los datos de la subasta.');
@@ -77,7 +77,7 @@ async function fetchAuctionData() {
         const articleId = auctionData.articleId;
 
         // Segunda consulta: Obtener detalles del artículo
-        const articleResponse = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/articles/${articleId}/with-image`, {
+        const articleResponse = await fetch(`${apiUrl}/articles/${articleId}/with-image`, {
             headers: getAuthHeaders()
         });
         if (!articleResponse.ok) throw new Error('Error al cargar los detalles del artículo.');
@@ -85,7 +85,7 @@ async function fetchAuctionData() {
         const articleData = await articleResponse.json();
 
         // Quinta consulta: Obtener el ranking de pujas
-        const rankingResponse = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}/top-bids`, {
+        const rankingResponse = await fetch(`${apiUrl}/auctions/${auctionId}/top-bids`, {
             headers: getAuthHeaders()
         });
         if (!rankingResponse.ok) throw new Error('Error al cargar el ranking de pujas.');
@@ -147,7 +147,7 @@ function initializeAuctionPage(data) {
 
                 // Realizar la solicitud para iniciar la subasta
                 //fetch(`http://localhost:8080/api/auctions/${auctionId}/start`, { method: 'POST', headers: getAuthHeaders() })
-                fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}/start`, { method: 'POST', headers: getAuthHeaders() })
+                fetch(`${apiUrl}/auctions/${auctionId}/start`, { method: 'POST', headers: getAuthHeaders() })
                     .then(response => {
                         if (response.ok) {
                             // Actualizar la UI una vez que la subasta ha iniciado
@@ -176,7 +176,7 @@ function initializeAuctionPage(data) {
 
                 // Realizar la solicitud para finalizar la subasta
                 //fetch(`http://localhost:8080/api/auctions/${auctionId}/finalize`, { method: 'POST', headers: getAuthHeaders() })
-                fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}/finalize`, { method: 'POST', headers: getAuthHeaders() })
+                fetch(`${apiUrl}/auctions/${auctionId}/finalize`, { method: 'POST', headers: getAuthHeaders() })
                     .then(response => {
                         if (response.ok) { /* empty */ } else {
 
@@ -369,7 +369,7 @@ async function handleBid() {
             pujarBtn.style.cursor = "not-allowed";
             try {
                 //const response = await fetch(`http://localhost:8080/api/auctions/${auctionId}/bid`, {
-                const response = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/auctions/${auctionId}/bid`, {
+                const response = await fetch(`${apiUrl}/auctions/${auctionId}/bid`, {
                     method: "POST",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(bidData)
@@ -510,7 +510,7 @@ let stompClient = null;
 // Función asincrónica para obtener los datos del usuario
 async function fetchUserData() {
     try {
-        const userResponse = await fetch('https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/users/me', {
+        const userResponse = await fetch(`${apiUrl}/users/me`, {
             headers: getAuthHeaders()
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
@@ -541,7 +541,7 @@ fetchUserData().then(userData => {
 // Función para conectar al WebSocket
 async function connectWebSocket() {
     try {
-        const response = await fetch(`https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/negotiate?id=${userId}`);
+        const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`);
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const data = await response.json();
 
@@ -585,7 +585,6 @@ async function connectWebSocket() {
             } else if (message.group === auctionTopic) {
 
                 const parsedMessage = message.data;
-                console.log(parsedMessage);
                 let firstRank = null;
                 let firstUsername = null;
                 switch (parsedMessage.eventType) {
@@ -611,8 +610,6 @@ async function connectWebSocket() {
                         break;
                 }
             } else if (message.group === timeTopic) {
-                console.log(message.data);
-                console.log(message.group);
                 const timeMessage = message.data;
                 timeRemaining = timeMessage.eventData;
                 updateTimer();
@@ -703,7 +700,7 @@ function triggerExitAction() {
 }
 async function updatemoney() {
     try {
-        const userResponse = await fetch('https://puko-back-b7ebdyd4gsh6hvch.centralus-01.azurewebsites.net/api/users/me', {
+        const userResponse = await fetch(`${apiUrl}/users/me`, {
             headers: getAuthHeaders()
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
