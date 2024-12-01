@@ -36,7 +36,7 @@ async function fetchUserMoney() {
     try {
         const montoElement = document.querySelector('.total-amount span');
         //NOSONAR
-        const userResponse = await fetch('https://20.3.4.249/api/users/me', {  //NOSONAR
+        const userResponse = await fetch('http://20.3.4.249/api/users/me', {  //NOSONAR
             headers: getAuthHeaders()
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
