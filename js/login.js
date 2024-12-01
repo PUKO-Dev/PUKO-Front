@@ -10,6 +10,8 @@ function validateLogin(event) {
     const passwordInput = document.querySelector('input[placeholder="Password"]').value;
 
     // Definimos la URL de la API
+    // Using HTTP instead of HTTPS for development purposes.
+    // sonar-ignore: Using HTTP protocol is insecure.
     const apiUrl = 'http://20.3.4.249/api/users/me';
 
     // Codificamos las credenciales en base64

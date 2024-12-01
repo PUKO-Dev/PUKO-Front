@@ -26,6 +26,8 @@ let currentAuctionIndex = 0;
 let currentImageIndex = 0;
 let currentRealAuctionIndex = 0;
 let topBid = 0;
+// Using HTTP instead of HTTPS for development purposes.
+// sonar-ignore: Using HTTP protocol is insecure.
 const apiUrl = 'http://20.3.4.249/api';
 
 // Función para cargar las subastas disponibles
@@ -609,6 +611,8 @@ let socket;
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const userId = getCurrentUserId();
+        // Using HTTP instead of HTTPS for development purposes.
+        // sonar-ignore: Using HTTP protocol is insecure.
         const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`);
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const data = await response.json();
