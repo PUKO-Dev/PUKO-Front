@@ -26,8 +26,32 @@ let currentAuctionIndex = 0;
 let currentImageIndex = 0;
 let currentRealAuctionIndex = 0;
 let topBid = 0;
+
 //NOSONAR
 const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
+const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ=="; 
+const SECRET_KEY = atob(encodedKey); 
+
+
+function decryptData(cipherText) {
+    try {
+        // Descifrar utilizando la clave secreta
+        const bytes = CryptoJS.AES.decrypt(cipherText, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        // Convertir a cadena UTF-8
+        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+
+        if (!decryptedText) {
+            throw new Error("Decryption failed or data is not UTF-8 compliant.");
+        }
+        return decryptedText;
+    } catch (error) {
+        console.error("Error during decryption:", error.message);
+        throw error;
+    }
+}
 
 // Función para cargar las subastas disponibles
 function getAuthHeaders() {
@@ -609,11 +633,14 @@ let socket;
 // Cargar y renderizar subastas en la primera carga
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const userId = getCurrentUserId();
-        //NOSONAR
+        userId = getCurrentUserId(); //NOSONAR
         const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
         //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
-        const data = await response.json();
+        const encryptedData = await response.text();  // Obtener los datos cifrados
+        // Desencripta los datos recibidos
+        const decryptedData = decryptData(encryptedData);
+        // Convierte la respuesta desencriptada en un objeto JSON
+        const data = JSON.parse(decryptedData);
         socket = new WebSocket(data.url, 'json.webpubsub.azure.v1');
 
         socket.onopen = () => {
