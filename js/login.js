@@ -95,6 +95,7 @@ function handleCredentialResponse(response) {
                 text: `${data.username}`,
                 icon: "success",
                 color: "#fff",
+                heightAuto: false,
                 background: "#252525",
                 confirmButtonColor: "#ccb043"
             }).then(() => {
