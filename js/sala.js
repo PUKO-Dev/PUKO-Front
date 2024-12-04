@@ -73,10 +73,11 @@ async function fetchAuctionData() {
             headers: getAuthHeaders()
         });
         if (!auctionResponse.ok) throw new Error('Error al cargar los datos de la subasta.');
-
+        
         const auctionData = await auctionResponse.json();
+        
         const articleId = auctionData.articleId;
-
+    
         // Segunda consulta: Obtener detalles del artículo
         const articleResponse = await fetch(`${apiUrl}/articles/${articleId}/with-image`, {
             headers: getAuthHeaders()
@@ -85,13 +86,7 @@ async function fetchAuctionData() {
 
         const articleData = await articleResponse.json();
 
-        // Quinta consulta: Obtener el ranking de pujas
-        const rankingResponse = await fetch(`${apiUrl}/auctions/${auctionId}/top-bids`, {
-            headers: getAuthHeaders()
-        });
-        if (!rankingResponse.ok) throw new Error('Error al cargar el ranking de pujas.');
-        Creator = auctionData.creatorId === userId;
-        const rankingData = await rankingResponse.json();
+   
         // Mapea los datos para tu aplicación
         const auctionDetails = {
             id: auctionData.id,
@@ -100,7 +95,7 @@ async function fetchAuctionData() {
             img: articleData.mainImage,
             duration: auctionData.duration,
             status: auctionData.status,
-            ranking: rankingData,
+            ranking: auctionData.bidRanking,
             monto: temporaryMoney,
             initialPrice: articleData.initialPrice,
             isCreator: auctionData.creatorId === userId
@@ -120,7 +115,7 @@ async function fetchAuctionData() {
 // Configuración de la interfaz y temporizador
 function initializeAuctionPage(data) {
     TOTAL_TIME = Math.floor(data.duration / 1000);
-
+    
 
     generateRanking(data.ranking);
 
@@ -215,6 +210,7 @@ function initializeAuctionPage(data) {
 
 // Función para generar el ranking
 function generateRanking(data) {
+    console.log(data);
     const rankingList = document.querySelector(".ranking-list");
     const rankings = data;
 
@@ -240,13 +236,13 @@ function generateRanking(data) {
 
             rankingItem.setAttribute('data-ranking', index + 1);
             rankingItem.innerHTML = `
-                <span class="username">${rank.username}</span>
+                <span class="username">${rank.userId}</span>
                 <span class="amount">${Math.floor(rank.amount).toLocaleString('de-DE')}</span>
             `;
         } else {
             rankingItem.setAttribute('data-ranking', "-");
             rankingItem.innerHTML = `
-                <span class="username">${rank.username}</span>
+                <span class="username">${rank.userId}</span>
                 <span class="amount">-</span>
             `;
         }
@@ -386,11 +382,25 @@ async function placeBid(auctionId, bidValue) {
     disableBidButton(true);
 
     const bidData = { amount: parseInt(bidValue, 10) };
+
+    // Convierte el objeto a JSON antes de cifrar
+    const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify(bidData), 
+        CryptoJS.enc.Utf8.parse("MySecretKey12345"), 
+        {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }
+    ).toString();
+
     try {
         const response = await fetch(`${apiUrl}/auctions/${auctionId}/bid`, {
             method: "POST",
-            headers: getAuthHeaders(),
-            body: JSON.stringify(bidData)
+            headers: {
+                ...getAuthHeaders(),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ data: encryptedData }) // Enviando el dato cifrado
         });
 
         if (!response.ok) {
@@ -714,6 +724,7 @@ async function updatemoney() {
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
         const userData = await userResponse.json();
+        console.log(userData);
         document.querySelector(".total-amount span").textContent = `$ ${formatMoney(userData.temporaryMoney)}`;
     } catch (error) {
         console.error(error);
