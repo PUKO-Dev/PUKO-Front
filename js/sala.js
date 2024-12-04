@@ -77,7 +77,7 @@ async function fetchAuctionData() {
         const auctionData = await auctionResponse.json();
         
         const articleId = auctionData.articleId;
-
+    
         // Segunda consulta: Obtener detalles del artículo
         const articleResponse = await fetch(`${apiUrl}/articles/${articleId}/with-image`, {
             headers: getAuthHeaders()
@@ -86,14 +86,7 @@ async function fetchAuctionData() {
 
         const articleData = await articleResponse.json();
 
-        // Quinta consulta: Obtener el ranking de pujas
-        const rankingResponse = await fetch(`${apiUrl}/auctions/${auctionId}/top-bids`, {
-            headers: getAuthHeaders()
-        });
-        if (!rankingResponse.ok) throw new Error('Error al cargar el ranking de pujas.');
-        Creator = auctionData.creatorId === userId;
-        const rankingData = await rankingResponse.json();
-        console.log(rankingData);
+   
         // Mapea los datos para tu aplicación
         const auctionDetails = {
             id: auctionData.id,
@@ -102,7 +95,7 @@ async function fetchAuctionData() {
             img: articleData.mainImage,
             duration: auctionData.duration,
             status: auctionData.status,
-            ranking: rankingData,
+            ranking: auctionData.bidRanking,
             monto: temporaryMoney,
             initialPrice: articleData.initialPrice,
             isCreator: auctionData.creatorId === userId
@@ -243,13 +236,13 @@ function generateRanking(data) {
 
             rankingItem.setAttribute('data-ranking', index + 1);
             rankingItem.innerHTML = `
-                <span class="username">${rank.username}</span>
+                <span class="username">${rank.userId}</span>
                 <span class="amount">${Math.floor(rank.amount).toLocaleString('de-DE')}</span>
             `;
         } else {
             rankingItem.setAttribute('data-ranking', "-");
             rankingItem.innerHTML = `
-                <span class="username">${rank.username}</span>
+                <span class="username">${rank.userId}</span>
                 <span class="amount">-</span>
             `;
         }
