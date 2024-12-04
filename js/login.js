@@ -83,7 +83,7 @@ function handleCredentialResponse(response) {
     .then(data => {
         if (data.token) {
             console.log('Token JWT recibido:', data.token);
-            // Guardamos el JWT recibido en localStorage
+            // Guardamos el JWT recibido en sessionStorage
             sessionStorage.setItem('authToken', data.token);
             sessionStorage.setItem('username', data.username);
             sessionStorage.setItem('userId', data.id);
@@ -130,9 +130,8 @@ function handleCredentialResponse(response) {
     });
 }
 
-
-// Inicializa el botón de Google cuando el documento esté listo
-document.addEventListener('DOMContentLoaded', function() {
+// Nueva función que se ejecuta cuando la API de Google se carga completamente
+function initializeGoogleSignIn() {
     google.accounts.id.initialize({
         client_id: '427937242400-1g9redl0nc6al5bu6s4fbqvlu4s7h9mk.apps.googleusercontent.com', // Reemplaza con tu Client ID de Google
         callback: handleCredentialResponse // Función que maneja la respuesta del login
@@ -143,7 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("google-signin-button"), 
         { theme: "outline", size: "large" }  // Personaliza el botón si lo deseas
     );
-});
+}
 
-// Event listener para el botón de login
-document.querySelector('.login-btn').addEventListener('click', validateLogin);
+// Inicializa el inicio de sesión con Google cuando el documento esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    // El script de Google ya debe estar cargado por completo en este momento
+});
