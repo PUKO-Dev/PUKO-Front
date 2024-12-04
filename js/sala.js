@@ -25,9 +25,8 @@ let TOTAL_TIME;
 let timeRemaining;
 //NOSONAR
 const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
-const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ=="; 
+const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ==";
 const SECRET_KEY = atob(encodedKey); 
-
 
 function decryptData(cipherText) {
     try {
@@ -48,8 +47,6 @@ function decryptData(cipherText) {
         throw error;
     }
 }
-
-// Función para obtener headers de autenticación
 function getAuthHeaders() {
     const authToken = sessionStorage.getItem('authToken');
     return {
@@ -57,27 +54,6 @@ function getAuthHeaders() {
         'Content-Type': 'application/json'
     };
 }
-/* function convertDurationToSeconds(duration) {
-    console.log(duration);
-    // Inicializar el total de segundos
-    let totalSeconds = 0;
-
-    // Expresión regular para capturar las horas, minutos y segundos
-    const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
-    // Ejecutar la expresión regular en la duración
-    const matches = duration.match(regex);
-
-    if (matches) {
-        const hours = parseInt(matches[1], 10) || 0; // Captura horas
-        const minutes = parseInt(matches[2], 10) || 0; // Captura minutos
-        const seconds = parseInt(matches[3], 10) || 0; // Captura segundos
-
-        // Convertir a segundos
-        totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
-    }
-
-    return totalSeconds;
-} */
 const mainRoom = document.getElementById("main_room");
 mainRoom.style.display = "none";
 // Función para obtener datos de la subasta
@@ -359,78 +335,84 @@ function updateTimer() {
 
 
 async function handleBid() {
-    const bidValue = bidInput.value.replace(/\./g, '');
+    const bidValue = sanitizeInput(bidInput.value);
     const auctionId = sessionStorage.getItem('idRoom');
-    const monto = document.querySelector(".total-amount span").textContent;
-    const dinero = monto.replace(/[\s$]/g, '').replace(/\./g, '');
-    if (bidValue === "" || isNaN(bidValue) || Number(bidValue) <= 0) {
-        Swal.fire({
-            icon: "error",
-            heightAuto: false,
-            title: "Oops...",
-            color: "#fff",
-            background: "#252525",
-            confirmButtonColor: "#f27474",
-            text: "Enter a valid numeric value!",
-        });
-    } else {
-        const bidValueNum = parseInt(bidValue, 10);
-        const dineroNum = parseInt(dinero, 10);
+    const availableAmount = sanitizeInput(document.querySelector(".total-amount span").textContent);
 
-        if (dineroNum < bidValueNum) {
-            Swal.fire({
-                icon: "error",
-                heightAuto: false,
-                title: "Oops...",
-                color: "#fff",
-                background: "#252525",
-                confirmButtonColor: "#f27474",
-                text: "You don't have enough money!",
-            });
-        } else {
-            const bidData = { amount: bidValueNum };
-            pujarBtn.disabled = true;
-            pujarBtn.style.backgroundColor = "grey";
-            pujarBtn.style.cursor = "not-allowed";
-            try {
-                //const response = await fetch(`http://localhost:8080/api/auctions/${auctionId}/bid`, {
-                const response = await fetch(`${apiUrl}/auctions/${auctionId}/bid`, {
-                    method: "POST",
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify(bidData)
-                });
-
-                if (response.ok) {
-                    try {
-                        pujarBtn.disabled = false;
-                        pujarBtn.style.backgroundColor = "#ccb043";
-                        pujarBtn.style.cursor = "pointer";
-                    } catch (error) {
-                        console.error(error); // Manejo de errores
-                    }
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        background: "#252525",
-                        heightAuto: false,
-                        title: 'Error sending bid',
-                        color: "#fff",
-                        confirmButtonColor: "#f27474",
-                        text: "Please, try again with another amount, your offer must be higher than the current bid.",
-                    });
-                    pujarBtn.disabled = false;
-                    pujarBtn.style.backgroundColor = "#ccb043";
-                    pujarBtn.style.cursor = "pointer";
-                }
-            } catch (error) {
-                console.error("Hubo un problema con la solicitud:", error);
-            }
-
-            // Limpiar el campo de entrada
-            console.timeEnd("bidRequestTimer");
-            bidInput.value = "";
-        }
+    if (!isValidBid(bidValue)) {
+        showAlert("error", "Oops...", "Enter a valid numeric value!");
+        return;
     }
+
+    if (!hasSufficientFunds(bidValue, availableAmount)) {
+        showAlert("error", "Oops...", "You don't have enough money!");
+        return;
+    }
+
+    await placeBid(auctionId, bidValue);
+    resetBidInput();
+}
+
+// Sanitiza el valor eliminando puntos, espacios y otros caracteres no numéricos.
+function sanitizeInput(value) {
+    return value.replace(/[\s$.]/g, '').replace(/\./g, '');
+}
+
+// Valida que la oferta sea numérica, positiva y no esté vacía.
+function isValidBid(value) {
+    return value !== "" && !isNaN(value) && Number(value) > 0;
+}
+
+// Verifica si el monto disponible es suficiente para la oferta.
+function hasSufficientFunds(bidValue, availableAmount) {
+    return parseInt(availableAmount, 10) >= parseInt(bidValue, 10);
+}
+
+// Muestra alertas reutilizando un solo método para evitar redundancia.
+function showAlert(icon, title, text) {
+    Swal.fire({
+        icon,
+        heightAuto: false,
+        title,
+        text,
+        color: "#fff",
+        background: "#252525",
+        confirmButtonColor: "#f27474",
+    });
+}
+
+// Maneja el envío de la oferta al backend y la respuesta.
+async function placeBid(auctionId, bidValue) {
+    disableBidButton(true);
+
+    const bidData = { amount: parseInt(bidValue, 10) };
+    try {
+        const response = await fetch(`${apiUrl}/auctions/${auctionId}/bid`, {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify(bidData)
+        });
+
+        if (!response.ok) {
+            showAlert("error", "Error sending bid", "Please try again with a higher amount.");
+        }
+    } catch (error) {
+        showAlert("error", "Network Error", "Unable to place bid. Please try again later.");
+    } finally {
+        disableBidButton(false);
+    }
+}
+
+// Desactiva y activa el botón de oferta para evitar múltiples solicitudes.
+function disableBidButton(isDisabled) {
+    pujarBtn.disabled = isDisabled;
+    pujarBtn.style.backgroundColor = isDisabled ? "grey" : "#ccb043";
+    pujarBtn.style.cursor = isDisabled ? "not-allowed" : "pointer";
+}
+
+// Restablece el campo de entrada después de enviar la oferta.
+function resetBidInput() {
+    bidInput.value = "";
 }
 
 // Event listener para el botón de puja
@@ -568,7 +550,7 @@ async function connectWebSocket() {
     try {
         //NOSONAR
         const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
-        //const response = await fetch(http://localhost:8080/negotiate?id=${userId});
+        //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
         const encryptedData = await response.text();
         const decryptedData = decryptData(encryptedData);
         const data = JSON.parse(decryptedData);

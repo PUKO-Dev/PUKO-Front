@@ -26,6 +26,7 @@ let currentAuctionIndex = 0;
 let currentImageIndex = 0;
 let currentRealAuctionIndex = 0;
 let topBid = 0;
+
 //NOSONAR
 const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
 const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ=="; 
@@ -418,26 +419,6 @@ function closeModal() {
     document.getElementById("auctionModal").style.display = "none";
 }
 
-// Cambiar imagen del modal con flechas
-document.getElementById("prevAuction").addEventListener("click", () => {
-    /*  const auction = auctionsData[currentAuctionIndex];
-     const images = [auction.image, ...auction.additionalImages];
- 
-     if (images.length > 0) {
-         currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-         modalImageContainer.style.backgroundImage = `url(${images[currentImageIndex]})`;
-     } */
-});
-
-document.getElementById("nextAuction").addEventListener("click", () => {
-    /*    const auction = auctionsData[currentAuctionIndex];
-       const images = [auction.image, ...auction.additionalImages];
-   
-       if (images.length > 0) {
-           currentImageIndex = (currentImageIndex + 1) % images.length;
-           modalImageContainer.style.backgroundImage = `url(${images[currentImageIndex]})`;
-       } */
-});
 function setButtonStyles(button, display, backgroundColor, disabled) {
     button.style.display = display;
     button.style.backgroundColor = backgroundColor;
@@ -632,6 +613,7 @@ let socket;
 // Cargar y renderizar subastas en la primera carga
 document.addEventListener("DOMContentLoaded", async () => {
     try {
+        userId = getCurrentUserId(); //NOSONAR
         userId = getCurrentUserId(); //NOSONAR
         const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
         //const response = await fetch(http://localhost:8080/negotiate?id=${userId});
