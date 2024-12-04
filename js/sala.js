@@ -48,9 +48,9 @@ function decryptData(cipherText) {
     }
 }
 function getAuthHeaders() {
-    const credentials = sessionStorage.getItem('authCredentials');
+    const authToken = sessionStorage.getItem('authToken');
     return {
-        'Authorization': `Basic ${credentials}`,
+        'Authorization': `Bearer ${authToken}`,
         'Content-Type': 'application/json'
     };
 }
@@ -767,7 +767,7 @@ function displayMessage(chatMessage) {
 document.addEventListener("DOMContentLoaded", function () {
     // Conectar WebSocket
     connectWebSocket();
-    if (!sessionStorage.getItem('authCredentials') || !sessionStorage.getItem('idRoom')) {
+    if (!sessionStorage.getItem('authToken') || !sessionStorage.getItem('idRoom')) {
         // Redirigir al index.html si no está autenticado
         Swal.fire({
             title: "Who are you?",

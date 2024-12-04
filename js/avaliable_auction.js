@@ -55,9 +55,9 @@ function decryptData(cipherText) {
 
 // Función para cargar las subastas disponibles
 function getAuthHeaders() {
-    const credentials = sessionStorage.getItem('authCredentials');
+    const authToken = sessionStorage.getItem('authToken');
     return {
-        'Authorization': `Basic ${credentials}`,
+        'Authorization': `Bearer ${authToken}`,
         'Content-Type': 'application/json'
     };
 }
@@ -614,8 +614,9 @@ let socket;
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         userId = getCurrentUserId(); //NOSONAR
+        userId = getCurrentUserId(); //NOSONAR
         const response = await fetch(`http://20.3.4.249/negotiate?id=${userId}`); //NOSONAR
-        //const response = await fetch(`http://localhost:8080/negotiate?id=${userId}`);
+        //const response = await fetch(http://localhost:8080/negotiate?id=${userId});
         const encryptedData = await response.text();  // Obtener los datos cifrados
         // Desencripta los datos recibidos
         const decryptedData = decryptData(encryptedData);
@@ -634,7 +635,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         socket.addEventListener('message', (event) => {
             const message = JSON.parse(event.data);
             const parsedMessage = message.data;
-            
+
             if (message.group === "auctions") {
                 if (parsedMessage.eventType === "AUCTION_CREATED") {
                     addAuction(parsedMessage.eventData);
@@ -653,7 +654,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
-        if (!sessionStorage.getItem('authCredentials')) {
+
+        if (!sessionStorage.getItem('authToken')) {
             // Redirigir al index.html si no está autenticado
             Swal.fire({
                 title: "Who are you?",
