@@ -73,8 +73,9 @@ async function fetchAuctionData() {
             headers: getAuthHeaders()
         });
         if (!auctionResponse.ok) throw new Error('Error al cargar los datos de la subasta.');
-
+        
         const auctionData = await auctionResponse.json();
+        
         const articleId = auctionData.articleId;
 
         // Segunda consulta: Obtener detalles del artículo
@@ -92,6 +93,7 @@ async function fetchAuctionData() {
         if (!rankingResponse.ok) throw new Error('Error al cargar el ranking de pujas.');
         Creator = auctionData.creatorId === userId;
         const rankingData = await rankingResponse.json();
+        console.log(rankingData);
         // Mapea los datos para tu aplicación
         const auctionDetails = {
             id: auctionData.id,
@@ -120,7 +122,7 @@ async function fetchAuctionData() {
 // Configuración de la interfaz y temporizador
 function initializeAuctionPage(data) {
     TOTAL_TIME = Math.floor(data.duration / 1000);
-
+    
 
     generateRanking(data.ranking);
 
@@ -215,6 +217,7 @@ function initializeAuctionPage(data) {
 
 // Función para generar el ranking
 function generateRanking(data) {
+    console.log(data);
     const rankingList = document.querySelector(".ranking-list");
     const rankings = data;
 
@@ -386,11 +389,25 @@ async function placeBid(auctionId, bidValue) {
     disableBidButton(true);
 
     const bidData = { amount: parseInt(bidValue, 10) };
+
+    // Convierte el objeto a JSON antes de cifrar
+    const encryptedData = CryptoJS.AES.encrypt(
+        JSON.stringify(bidData), 
+        CryptoJS.enc.Utf8.parse("MySecretKey12345"), 
+        {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        }
+    ).toString();
+
     try {
         const response = await fetch(`${apiUrl}/auctions/${auctionId}/bid`, {
             method: "POST",
-            headers: getAuthHeaders(),
-            body: JSON.stringify(bidData)
+            headers: {
+                ...getAuthHeaders(),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ data: encryptedData }) // Enviando el dato cifrado
         });
 
         if (!response.ok) {
@@ -714,6 +731,7 @@ async function updatemoney() {
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
         const userData = await userResponse.json();
+        console.log(userData);
         document.querySelector(".total-amount span").textContent = `$ ${formatMoney(userData.temporaryMoney)}`;
     } catch (error) {
         console.error(error);
