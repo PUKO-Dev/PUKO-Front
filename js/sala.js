@@ -73,8 +73,9 @@ async function fetchAuctionData() {
             headers: getAuthHeaders()
         });
         if (!auctionResponse.ok) throw new Error('Error al cargar los datos de la subasta.');
-        
-        const auctionData = await auctionResponse.json();
+        const encryptedData = await auctionResponse.text();
+        const decryptedData = decryptData(encryptedData);
+        const auctionData = JSON.parse(decryptedData);
         
         const articleId = auctionData.articleId;
     
@@ -83,8 +84,10 @@ async function fetchAuctionData() {
             headers: getAuthHeaders()
         });
         if (!articleResponse.ok) throw new Error('Error al cargar los detalles del artículo.');
-
-        const articleData = await articleResponse.json();
+        
+        const encryptedData2 = await articleResponse.text();
+        const decryptedData2 = decryptData(encryptedData2);
+        const articleData = JSON.parse(decryptedData2);
 
    
         // Mapea los datos para tu aplicación
@@ -210,7 +213,6 @@ function initializeAuctionPage(data) {
 
 // Función para generar el ranking
 function generateRanking(data) {
-    console.log(data);
     const rankingList = document.querySelector(".ranking-list");
     const rankings = data;
 
@@ -531,8 +533,9 @@ async function fetchUserData() {
             headers: getAuthHeaders()
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
-
-        const userData = await userResponse.json();
+        const encryptedData = await userResponse.text();
+        const decryptedData = decryptData(encryptedData);
+        const userData = JSON.parse(decryptedData);
         return userData;
     } catch (error) {
         console.error(error);
@@ -724,7 +727,6 @@ async function updatemoney() {
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
         const userData = await userResponse.json();
-        console.log(userData);
         document.querySelector(".total-amount span").textContent = `$ ${formatMoney(userData.temporaryMoney)}`;
     } catch (error) {
         console.error(error);
