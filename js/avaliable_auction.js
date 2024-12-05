@@ -78,6 +78,18 @@ async function getRemainingTime(auctionId) {
 function getCurrentUserId() {
     return sessionStorage.getItem("userId");
 }
+function convertAuctionDtoToJSON(input) {
+    const jsonString = input
+        .replace(/AuctionDTO\{/g, '{') // Eliminar el prefijo "AuctionDTO"
+        .replace(/(\w+)=/g, '"$1":')   // Claves a formato JSON
+        .replace(/'/g, '"')            // Cambiar comillas simples por dobles
+        .replace(/}]/g, '}]')          // Asegurar que cierre el array
+        .replace(/"startTime":"([\d\-T:]+)""/g, '"startTime":"$1"') // Corregir el problema en `startTime`
+        .replace(/status:(\w+)/g, '"status":"$1"') // Agregar comillas a `status` si falta
+        .replace(/:([^\[{"]\w+)/g, ':"$1"'); // Poner comillas a valores de texto simples
+
+    return JSON.parse(jsonString);
+}
 nextPageButton.style.display = "none";
 async function loadAuctions() {
     const loadingElement = document.querySelector('.loading');
@@ -91,8 +103,12 @@ async function loadAuctions() {
         });
 
         if (!response.ok) throw new Error('Error al cargar las subastas.');
-
-        const data = await response.json();
+        const encryptedData = await response.text();
+        const decryptedData = decryptData(encryptedData);
+        console.log(decryptedData);
+        const data = JSON.parse(decryptedData);
+     
+        
 
         if (data.length === 0) {
             const emptyMessage = document.createElement("p");
@@ -259,7 +275,10 @@ async function loadArticleDetails(articleId) {
         headers: getAuthHeaders()
     });
     if (!response.ok) throw new Error('Error al cargar los detalles del artículo.');
-    return await response.json();
+    const encryptedData = await response.text();
+    const decryptedData = decryptData(encryptedData);
+    const data = JSON.parse(decryptedData);
+    return data;
 }
 function formatDate(dateString) {
     const date = new Date(dateString);

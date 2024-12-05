@@ -1,3 +1,4 @@
+
 const puko = document.getElementById("puko");
 const barraLateral = document.querySelector(".barra-lateral");
 const spans = document.querySelectorAll("span");
@@ -40,6 +41,35 @@ function getAuthHeadersGoogle() {
         'Content-Type': 'application/json'
     };
 }
+function decryptData(cipherText) {
+    try {
+        // Descifrar utilizando la clave secreta
+        const bytes = CryptoJS.AES.decrypt(cipherText, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        // Convertir a cadena UTF-8
+        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+
+        if (!decryptedText) {
+            throw new Error("Decryption failed or data is not UTF-8 compliant.");
+        }
+        return decryptedText;
+    } catch (error) {
+        console.error("Error during decryption:", error.message);
+        throw error;
+    }
+}
+function parseUserStringToJSON(userString) {
+    const jsonString = userString
+        .replace(/(\w+)=/g, '"$1":')   // Reemplaza `clave=` por `"clave":`
+        .replace(/'/g, '"')            // Reemplaza comillas simples por comillas dobles
+        .replace(/User\{/, '{')        // Reemplaza `User{` por `{`
+        .replace(/}$/, '}')            // Asegura que termina con `}`
+        .replace(/:\s*([A-Za-z_]\w*)/g, ':"$1"'); // Asegura que valores no numéricos estén entre comillas
+
+    return JSON.parse(jsonString);
+}
 async function fetchUserMoney() {
     try {
         const authProvider = sessionStorage.getItem('authProvider');
@@ -57,8 +87,9 @@ async function fetchUserMoney() {
         if (!userResponse.ok) {
             throw new Error('Error al cargar la información del usuario.');
         }
-
-        const userData = await userResponse.json();
+        const encryptedData = await userResponse.text();
+        const decryptedData = decryptData(encryptedData); // Cambié el nombre de la variable
+        const userData = JSON.parse(decryptedData);       
         montoElement.textContent = "$ " + (userData.temporaryMoney ? formatMoney(userData.temporaryMoney) : '0');
     } catch (error) {
         console.error('Error al obtener el dinero:', error);
@@ -98,6 +129,8 @@ log_icon.addEventListener("click", () => {
         }
     });
 });
+const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ=="; 
+const SECRET_KEY = atob(encodedKey); 
 palanca.addEventListener("click", () => {
     let body = document.body;
     body.classList.toggle("dark-mode");
@@ -152,4 +185,5 @@ document.addEventListener("DOMContentLoaded", () => {
         nombreElement.textContent = username || 'Usuario no definido';
 
     }
+    
 });

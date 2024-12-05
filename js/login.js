@@ -10,7 +10,8 @@ function validateLogin(event) {
     const passwordInput = document.querySelector('input[placeholder="Password"]').value;
 
     const apiUrl = 'http://20.3.4.249/api/users/me'; // URL de tu API
-
+    const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ=="; 
+    const SECRET_KEY = atob(encodedKey); 
     const credentials = btoa(`${usernameInput}:${passwordInput}`);
 
     fetch(apiUrl, {
@@ -144,7 +145,25 @@ function initializeGoogleSignIn() {
         { theme: "outline", size: "large" }  // Personaliza el botón si lo deseas
     );
 }
+function decryptData(cipherText) {
+    try {
+        // Descifrar utilizando la clave secreta
+        const bytes = CryptoJS.AES.decrypt(cipherText, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        // Convertir a cadena UTF-8
+        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
 
+        if (!decryptedText) {
+            throw new Error("Decryption failed or data is not UTF-8 compliant.");
+        }
+        return decryptedText;
+    } catch (error) {
+        console.error("Error during decryption:", error.message);
+        throw error;
+    }
+}
 // Inicializa el inicio de sesión con Google cuando el documento esté listo
 document.addEventListener('DOMContentLoaded', function() {
     // El script de Google ya debe estar cargado por completo en este momento
