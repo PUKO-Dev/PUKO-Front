@@ -60,16 +60,7 @@ function decryptData(cipherText) {
         throw error;
     }
 }
-function parseUserStringToJSON(userString) {
-    const jsonString = userString
-        .replace(/(\w+)=/g, '"$1":')   // Reemplaza `clave=` por `"clave":`
-        .replace(/'/g, '"')            // Reemplaza comillas simples por comillas dobles
-        .replace(/User\{/, '{')        // Reemplaza `User{` por `{`
-        .replace(/}$/, '}')            // Asegura que termina con `}`
-        .replace(/:\s*([A-Za-z_]\w*)/g, ':"$1"'); // Asegura que valores no numéricos estén entre comillas
 
-    return JSON.parse(jsonString);
-}
 async function fetchUserMoney() {
     try {
         const authProvider = sessionStorage.getItem('authProvider');

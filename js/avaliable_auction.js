@@ -105,7 +105,6 @@ async function loadAuctions() {
         if (!response.ok) throw new Error('Error al cargar las subastas.');
         const encryptedData = await response.text();
         const decryptedData = decryptData(encryptedData);
-        console.log(decryptedData);
         const data = JSON.parse(decryptedData);
      
         
@@ -660,11 +659,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     addAuction(parsedMessage.eventData);
                 }
                 if (parsedMessage.eventType === "AUCTION_STARTED") {
-                    console.log("Al Actualizar "+parsedMessage.eventData);
                     updateAuction(parsedMessage.eventData);
                 }
                 if (parsedMessage.eventType === "AUCTION_FINALIZED") {
-                    console.log("Al Borrar "+parsedMessage.eventData);
                     deleteAuction(parsedMessage.eventData);
                 }
                 if (parsedMessage.eventType === "NEW_TOP_BID") {
