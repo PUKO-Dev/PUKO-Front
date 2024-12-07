@@ -1,4 +1,3 @@
-
 // Variables y elementos de la interfaz
 const puko = document.getElementById("puko");
 const barraLateral = document.querySelector(".barra-lateral");
@@ -89,7 +88,7 @@ async function fetchAuctionData() {
         const decryptedData2 = decryptData(encryptedData2);
         const articleData = JSON.parse(decryptedData2);
 
-   
+        Creator = auctionData.creatorId === userId;
         // Mapea los datos para tu aplicación
         const auctionDetails = {
             id: auctionData.id,
@@ -726,7 +725,9 @@ async function updatemoney() {
             headers: getAuthHeaders()
         });
         if (!userResponse.ok) throw new Error('Error al cargar la información del usuario.');
-        const userData = await userResponse.json();
+        const encryptedData = await userResponse.text();
+        const decryptedData = decryptData(encryptedData);
+        const userData = JSON.parse(decryptedData);
         document.querySelector(".total-amount span").textContent = `$ ${formatMoney(userData.temporaryMoney)}`;
     } catch (error) {
         console.error(error);
