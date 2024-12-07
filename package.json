@@ -1,0 +1,16 @@
+{
+  "name": "javascript-testing",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest --coverage",
+    "build": "mkdir -p dist && rsync -av --exclude dist/ ./ dist/"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "sweetalert2": "^11.14.5"
+  }
+}
