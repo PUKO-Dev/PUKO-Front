@@ -2,7 +2,7 @@
 const Swal = require('sweetalert2');
 const {getAuthHeaders, getAuthHeadersGoogle, 
   fetchUserMoney,
-  formatMoney} = require('../jsTest/homePrueba')
+  formatMoney} = require('../cocomat-pro/jsTest/home')
 jest.mock('sweetalert2', () => ({
   fire: jest.fn(),
 }));
