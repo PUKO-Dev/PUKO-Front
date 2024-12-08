@@ -11,8 +11,6 @@ function validateLogin(event) {
     const passwordInput = document.querySelector('input[placeholder="Password"]').value;
 
     const apiUrl = 'http://20.3.4.249/api/users/me'; // URL de tu API
-    const encodedKey = "cHVrb2puYzEyMzQ1Njc4OQ==";
-    const SECRET_KEY = atob(encodedKey);
     const credentials = btoa(`${usernameInput}:${passwordInput}`);
 
     fetch(apiUrl, {

@@ -548,46 +548,12 @@ fetchUserData().then(userData => {
 
 // Función para enviar mensajes
 function sendMessage(message) {
-    const chatMessage = {
-        username: username,
-        message: message,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
+    console.log(message);
 
     // Estructura ajustada del mensaje, incluyendo 'data'
-    const payload = {
-        type: "sendToGroup",
-        group: `auction-${auctionId}-chat`,
-        data: chatMessage  // Agregar la propiedad 'data' con el mensaje
-    };
-
-    // Asegúrate de convertir el objeto JavaScript a un string JSON antes de enviarlo
-    socket.send(JSON.stringify(payload));
+ 
 }
 
-function displayMessage(chatMessage) {
-    const chatBody = document.querySelector('.chat-body');
-    const messageDiv = document.createElement('div');
-
-    // Agrega clase según si el mensaje es del usuario actual o de otro usuario
-    if (chatMessage.username === username) {
-        messageDiv.classList.add('user-message');
-    } else {
-        messageDiv.classList.add('other-message');
-    }
-
-    messageDiv.innerHTML = `
-        <div class="message-header">
-            ${chatMessage.username} - ${chatMessage.timestamp}
-        </div>
-        <div class="message-content">
-            ${chatMessage.message}
-        </div>
-    `;
-
-    chatBody.appendChild(messageDiv);
-    chatBody.scrollTop = chatBody.scrollHeight; // Desplázate hacia abajo al añadir un mensaje
-}
 
 // Inicializar la conexión y los event listeners cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", function () {
