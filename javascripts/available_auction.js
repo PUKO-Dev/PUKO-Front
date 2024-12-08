@@ -136,7 +136,6 @@ async function processAuctionData(auction, currentUserId) {
         const firstScore = firstRankingEntry[firstUsername];
         topBid = parseInt(firstScore, 10);
     }
-    const articleDetails = await loadArticleDetails(auction.articleId);
     let currentBid = 0;
     return {
         id: auction.id,
@@ -263,14 +262,7 @@ function convertDurationToSeconds(duration) {
 
     return totalSeconds;
 }
-// Función para cargar los detalles de un artículo
-async function loadArticleDetails(articleId) {
-    const response = await fetch(`${apiUrl}/articles/${articleId}/with-image`, {
-        headers: getAuthHeaders()
-    });
-    const data = articleId;
-    return data;
-}
+
 function formatDate(dateString) {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -345,24 +337,7 @@ function renderAuctions(page) {
     previousPageButton.disabled = page === 1;
 }
 function startTimerForModal() {
-    const modalTimeElement = document.getElementById("modal-time");
-    socket.addEventListener('message', function handleModalMessage(event) {
-        const message = JSON.parse(event.data);
-
-        // Filtrar los mensajes del grupo específico
-        if (message.group === `auction-${currentRealAuctionIndex}-time`) {
-            const parsedMessage = message.data;
-            let timeRemaining = parsedMessage.eventData;
-            const hours = Math.floor(timeRemaining / 3600);
-            const minutes = Math.floor((timeRemaining % 3600) / 60);
-            
-            if (timeRemaining >= 3600) {
-                modalTimeElement.textContent = `Left Time: ${hours}h ${minutes}m`;
-            } else {
-                modalTimeElement.textContent = `Left Time: ${Math.floor(timeRemaining / 60)} min`;
-            }
-        }
-    });
+    console.log("hola");
 }
 
 
@@ -371,7 +346,6 @@ async function showModal(auction, index) {
     currentRealAuctionIndex = auction.id;
     currentImageIndex = 0;
 
-    const loadingText = document.getElementById("loadingText");
     
 
     
@@ -414,27 +388,12 @@ async function showModal(auction, index) {
         }
     } catch (error) {
         console.error('Error al mostrar los datos del modal:', error);
-    } finally {
     }
 }
 
 function startTimer(auctionDiv, index) {
-    const timeRemainingElement = auctionDiv.querySelector(".time-remaining");
-    const joinMessageAuctionTime = {
-        type: "joinGroup",
-        group: `auction-${index}-time`
-    }
-    socket.send(JSON.stringify(joinMessageAuctionTime));
-    socket.addEventListener('message', function handleMessage(event) {
-        const message = JSON.parse(event.data);
-        if (message.group === `auction-${index}-time`) {
-            const parsedMessage = message.data;
-            let timeRemaining = parsedMessage.eventData;
-            const hours = Math.floor(timeRemaining / 3600);
-            const minutes = Math.floor((timeRemaining % 3600) / 60);
-            timeRemainingElement.textContent = `Left Time: ${hours}h ${minutes}m`;
-        }
-    });
+    console.log(auctionDiv+index);
+    
 }
 
 function formatMoney(value) {
