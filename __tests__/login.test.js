@@ -1,9 +1,5 @@
-// Importar funciones necesarias
 
-const { decryptData } = require('../jsTest/loginPrueba');
-const CryptoJS = require('crypto-js');
-
-const { validateLogin } = require('../jsTest/loginPrueba');
+const { validateLogin } = require('../javascripts/login');
 const Swal = require('sweetalert2');
 // Mock de los elementos DOM que se utilizan
 jest.mock('sweetalert2', () => ({
