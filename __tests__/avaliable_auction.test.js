@@ -129,7 +129,7 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
         }
         addAuction(auction);
         updateAuction(auction);
@@ -141,6 +141,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -157,7 +158,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -169,6 +171,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -185,7 +188,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -197,6 +201,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -213,7 +218,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -225,6 +231,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -241,7 +248,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -253,6 +261,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -269,7 +278,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -281,6 +291,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -297,7 +308,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -309,6 +321,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -325,7 +338,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -337,6 +351,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -353,7 +368,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -365,6 +381,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -381,7 +398,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -393,6 +411,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -409,7 +428,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -421,6 +441,7 @@ describe('Auction Module Tests', () => {
         try{
             showModal(auction, 1);
         }catch(error){
+            console.log(error);
 
         }
         
@@ -437,7 +458,8 @@ describe('Auction Module Tests', () => {
         try {
             await processAuctionData(auction2, 1);
         } catch (error) {
-            
+            console.log(error);
+
         }
         addAuction(auction);
         updateAuction(auction);
@@ -449,11 +471,13 @@ describe('Auction Module Tests', () => {
         try{
             subscribeToAuction(auction.id);
         }catch(error){
+            console.log(error);
 
         }
         try{
             checkSubscription(auction.id);
         }catch(error){
+            console.log(error);
 
         }
         // Verifica que la subasta se haya agregado a auctionsData

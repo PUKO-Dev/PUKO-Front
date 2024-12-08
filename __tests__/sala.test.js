@@ -77,19 +77,22 @@ describe('Pruebas de funciones de subasta', () => {
         try {
             updateTimer();
         } catch (error) {
-            
+            console.log(error);
+
         }
         try {
             sanitizeInput(1000);
             showPopup();
         } catch (error) {
-            
+            console.log(error);
+
         }
         
         try {
             initializeAuctionPage(data);
         } catch (error) {
-            
+            console.log(error);
+
         }
         const auctionsData = [null]; 
         expect(auctionsData).toContain(null);

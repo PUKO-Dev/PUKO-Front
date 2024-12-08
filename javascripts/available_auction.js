@@ -1,33 +1,18 @@
-const puko = document.getElementById("puko");
+
 const CryptoJS = require('crypto-js');
 const Swal = require('sweetalert2');
-const barraLateral = document.querySelector(".barra-lateral");
-const spans = document.querySelectorAll("span");
-const palanca = document.querySelector(".switch");
-const circulo = document.querySelector(".circulo");
-const menu = document.querySelector(".menu");
-const main = document.querySelector("main");
-const edit_btn = document.querySelector(".editUser");
-const btn_close_modal = document.getElementById("cerrarPopUp");
 const preb_btn = document.querySelector(".previous-page-btn");
 const modalImageContainer = document.querySelector(".modal-image-container");
-const subscribe_btn = document.querySelector(".subscribe-btn");
 const auctionsContainer = document.getElementById("auctions-container");
 const previousPageButton = document.getElementById("previous-page");
 const nextPageButton = document.getElementById("next-page");
-const btnCloseModal = document.getElementById("cerrarPopUp");
 const subscribeBtn = document.querySelector(".subscribe-btn");
-const log_icon = document.querySelector(".logOut-icon");
 const enter_btn = document.querySelector(".enter-btn");
 let currentPage = 1;
-let UserId;
 const renderedAuctions = new Set();
 const itemsPerPage = 8;
 let auctionsData = [];
-let currentAuctionIndex = 0;
-let currentImageIndex = 0;
 let currentRealAuctionIndex = 0;
-let topBid = 0;
 
 //NOSONAR
 const apiUrl = 'http://20.3.4.249/api'; //NOSONAR
