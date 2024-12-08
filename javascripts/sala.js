@@ -121,78 +121,6 @@ function initializeAuctionPage(data) {
 
     generateRanking(data.ranking);
 
-    const pujaContainer = document.getElementById("pujaContainer");
-    const lineaDiv = document.getElementById("lineaDiv");
-    const auctionId = sessionStorage.getItem('idRoom');
-
-    // Verificación si el usuario es el creador de la subasta y el estado de la subasta
-    if (data.isCreator) {
-        if (data.status !== "ACTIVE") {
-            // Mostrar botón de iniciar subasta si es el creador y la subasta no está activa
-            pujaContainer.style.display = "none";
-            iniciarSalaBtn.style.display = "block";
-            finalizarSalaBtn.style.display = "none";
-            lineaDiv.style.display = "none";
-            iniciarSalaBtn.disabled = false;
-            iniciarSalaBtn.style.backgroundColor = "";
-            iniciarSalaBtn.style.cursor = "pointer";
-
-            // Asociar el evento de inicio de la subasta al botón iniciar
-            iniciarSalaBtn.addEventListener("click", () => {
-                iniciarSalaBtn.disabled = true;
-                iniciarSalaBtn.style.backgroundColor = "grey";
-                iniciarSalaBtn.style.cursor = "not-allowed";
-
-                // Realizar la solicitud para iniciar la subasta
-                //fetch(`http://localhost:8080/api/auctions/${auctionId}/start`, { method: 'POST', headers: getAuthHeaders() })
-                fetch(`${apiUrl}/auctions/${auctionId}/start`, { method: 'POST', headers: getAuthHeaders() })
-                    .then(response => {
-                        if (response.ok) {
-                            // Actualizar la UI una vez que la subasta ha iniciado
-                            iniciarSalaBtn.style.display = "none"; // Ocultar botón de iniciar
-                            finalizarSalaBtn.style.display = "block"; // Mostrar botón de finalizar
-                            document.getElementById("tiempoMin").style.display = "block";
-                            initializeAuctionPage({ ...data, status: "ACTIVE" }); // Actualizar la vista
-                        } else {
-                            iniciarSalaBtn.disabled = false;
-                            iniciarSalaBtn.style.backgroundColor = "";
-                            iniciarSalaBtn.style.cursor = "pointer";
-                        }
-                    });
-            });
-        } else {
-            // Mostrar botón de finalizar subasta si es el creador y la subasta está activa
-            pujaContainer.style.display = "none";
-            iniciarSalaBtn.style.display = "none";
-            finalizarSalaBtn.style.display = "block";
-            lineaDiv.style.display = "none";
-
-            finalizarSalaBtn.addEventListener("click", () => {
-                finalizarSalaBtn.disabled = true;
-                finalizarSalaBtn.style.backgroundColor = "grey";
-                finalizarSalaBtn.style.cursor = "not-allowed";
-
-                // Realizar la solicitud para finalizar la subasta
-                //fetch(`http://localhost:8080/api/auctions/${auctionId}/finalize`, { method: 'POST', headers: getAuthHeaders() })
-                fetch(`${apiUrl}/auctions/${auctionId}/finalize`, { method: 'POST', headers: getAuthHeaders() })
-                    .then(response => {
-                        if (response.ok) { /* empty */ } else {
-
-                            finalizarSalaBtn.disabled = false;
-                            finalizarSalaBtn.style.backgroundColor = "";
-                            finalizarSalaBtn.style.cursor = "pointer";
-                        }
-                    });
-            });
-        }
-    } else {
-        // Mostrar el contenedor de pujas para los no creadores o cuando la subasta esté activa
-        pujaContainer.style.display = "flex";
-        iniciarSalaBtn.style.display = "none";
-        finalizarSalaBtn.style.display = "none";
-        lineaDiv.style.display = "block";
-    }
-
     // Mostrar temporizador si hay tiempo restante y la subasta está activa
 
     document.getElementById("time-remaining").innerHTML = "Not <br> Started";
@@ -441,51 +369,6 @@ try {
 
 }
 
-try {
-    menu.addEventListener("click", () => {
-        barraLateral.classList.toggle("max-barra-lateral");
-        if (barraLateral.classList.contains("max-barra-lateral")) {
-            menu.children[0].style.display = "none";
-            menu.children[1].style.display = "block";
-    
-        } else {
-            menu.children[1].style.display = "none";
-            menu.children[0].style.display = "block";
-        }
-        if (window.innerWidth <= 320) {
-            barraLateral.classList.add("mini-barra-lateral");
-            main.classList.add("min-main");
-            spans.forEach((span) => {
-                span.classList.add("oculto");
-            });
-        }
-    });
-} catch (error) {
-    
-}
-
-try {
-    chatIcon.addEventListener("click", function () {
-        chatIcon.classList.remove("show-notification");
-    
-        const time = document.querySelector(".time");
-        const timeContainer = document.querySelector(".timer-container");
-        const timeText = document.querySelector(".timer-text");
-        const timeRemainingLabel = document.getElementById("timeRemainingLabel");
-    
-        chatPopup.style.display = chatPopup.style.display === "block" ? "none" : "block";
-        isChatOpen = chatPopup.style.display === "block";
-    
-        time.classList.toggle("time_desplazado");
-        timeContainer.classList.toggle("timer-container_desplazado");
-        timeText.classList.toggle("timer-text_desplazado");
-    
-        // Ocultar o mostrar el "Time Remaining" label
-        timeRemainingLabel.style.display = isChatOpen ? "none" : "block";
-    });
-} catch (error) {
-    
-}
 
 try {
     palanca.addEventListener("click", () => {
@@ -554,64 +437,6 @@ function sendMessage(message) {
  
 }
 
-
-// Inicializar la conexión y los event listeners cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", function () {
-    // Conectar WebSocket
-    connectWebSocket();
-    if (!sessionStorage.getItem('authToken') || !sessionStorage.getItem('idRoom')) {
-        // Redirigir al index.html si no está autenticado
-        Swal.fire({
-            title: "Who are you?",
-            text: "Please log in again",
-            icon: "question",
-            color: "#fff",
-            iconColor: "#dcdcdc",
-            heightAuto: false,
-            background: "#252525",
-            confirmButtonColor: "#ccb043"
-        }).then(() => {
-            sessionStorage.clear();
-            window.location.href = '/index.html';
-        });
-
-    }
-
-    // Obtener el valor del nombre desde sessionStorage
-    let username = sessionStorage.getItem('username');
-    if (username) {
-        username = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-    }
-    // Seleccionar el elemento span con la clase 'nombre'
-    const nombreElement = document.querySelector('.nombre');
-
-    // Establecer el texto del span al valor de username si existe
-    if (nombreElement) {
-        nombreElement.textContent = username || 'Usuario no definido';
-    }
-    // Event listener para el botón de enviar
-    document.querySelector('.send-message').addEventListener('click', function () {
-        const inputElement = document.querySelector('.chat-input');
-        const message = inputElement.value.trim();
-
-        if (message) {
-            sendMessage(message);
-            inputElement.value = '';
-        }
-    });
-
-    // Event listener para enviar con Enter
-    document.querySelector('.chat-input').addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            const message = this.value.trim();
-            if (message) {
-                sendMessage(message);
-                this.value = '';
-            }
-        }
-    });
-
-});
 const popup = document.getElementById("popup");
 
 // Función para mostrar el popup
