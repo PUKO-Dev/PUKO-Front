@@ -1,6 +1,6 @@
 const CryptoJS = require("crypto-js");
 const { decryptData, isValidBid, hasSufficientFunds, formatMoney, 
-    getAuthHeaders, fetchAuctionData, updateTimer, sanitizeInput, showPopup, initializeAuctionPage } = require('../cocomat-pro/jsTest/sala.js');
+    getAuthHeaders, fetchAuctionData, updateTimer, sanitizeInput, showPopup, initializeAuctionPage } = require('../javascripts/sala.js');
 
 // Simular el DOM
 document.body.innerHTML = `

@@ -1,7 +1,7 @@
 const { loadAuctions, processAuctionData, 
     addAuction, updateAuction, getRemainingTime, 
     updateAmountAuction, convertDurationToSeconds, formatDate, showModal, 
-    subscribeToAuction, checkSubscription } = require('../cocomat-pro/jsTest/available_auction');
+    subscribeToAuction, checkSubscription } = require('../javascripts/available_auction');
 
 const Swal = require('sweetalert2');
 const CryptoJS = require('crypto-js');

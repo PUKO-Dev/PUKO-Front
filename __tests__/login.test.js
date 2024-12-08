@@ -1,9 +1,5 @@
-// Importar funciones necesarias
 
-const { decryptData } = require('../cocomat-pro/jsTest/login');
-const CryptoJS = require('crypto-js');
-
-const { validateLogin } = require('../cocomat-pro/jsTest/login');
+const { validateLogin } = require('../javascripts/login');
 const Swal = require('sweetalert2');
 // Mock de los elementos DOM que se utilizan
 jest.mock('sweetalert2', () => ({
